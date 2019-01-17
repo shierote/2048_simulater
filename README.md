@@ -1,4 +1,8 @@
 # 2048_simulater
+実行方法
+```
+$ ruby game_simulater.rb
+```
 
 # 参考文献
 2048の得点計算方法と理論上の最高得点
