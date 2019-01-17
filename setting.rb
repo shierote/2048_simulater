@@ -70,3 +70,12 @@ def zero_list(ary)
   end
   return zero_list
 end
+
+# これ以上動かせなければtrueを返す
+def game_over?(ary)
+  if ary.flatten == to_top(ary).flatten && ary.flatten == to_left(ary).flatten \
+        && ary.flatten == to_right(ary).flatten && ary.flatten == to_bottom(ary).flatten
+    return true
+  end
+  return false
+end
