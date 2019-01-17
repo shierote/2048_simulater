@@ -79,3 +79,37 @@ def game_over?(ary)
   end
   return false
 end
+
+def set_first_ary
+  first_ary = Array.new(4).map{Array.new(4,0)}
+  marker = true
+  while(marker) do
+   first_ary[rand(0..3)][rand(0..3)] = 2*rand(1..2)
+   if zero_list(first_ary).length == 14
+     marker = false
+   end
+  end
+  return first_ary
+end
+
+def do_game(ary, log)
+  mark = true
+  while(mark) do
+    ary_tmp = Marshal.load(Marshal.dump(ary))
+    # このswape_algがswape方向を決めるアルゴリズム
+    ary = swape_alg(ary, log)
+    if ary != ary_tmp
+      ary = random_1(ary)
+    end
+    array_print(ary) if log
+    # p ary
+    ary_test = Marshal.load(Marshal.dump(ary))
+    if game_over?(ary_test)
+      result = ary
+      mark = false
+      p "===終了===" if log
+      array_print(ary) if log
+    end
+  end
+  return result
+end

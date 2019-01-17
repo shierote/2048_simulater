@@ -1,5 +1,5 @@
 require './setting'
-require './game'
+require './algorithm'
 
 test_ary = 
   [[2, 4, 2, 0], [4, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]

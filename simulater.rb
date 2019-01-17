@@ -1,12 +1,12 @@
 require './setting'
-require './game'
+require './algorithm'
 require "optparse"
 
 options = ARGV.getopts("", "log")
 
 list = []
 
-100.times do
+1000.times do
   p "初期状態" if options["log"]
   ary = set_first_ary
   array_print(ary) if options["log"]
