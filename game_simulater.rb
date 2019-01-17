@@ -35,21 +35,6 @@ def swape_alg(ary)
   end
 end
 
-def swape_alg2(ary)
-  list = [zero_list(to_top(ary)), zero_list(to_bottom(ary)), zero_list(to_right(ary)), zero_list(to_left(ary))]
-  if list.index(list.max) == 0
-    to_top(ary)
-  elsif list.index(list.max) == 1
-    to_bottom(ary)
-  elsif list.index(list.max) == 2
-    to_right(ary)
-  elsif list.index(list.max) == 3
-    to_left(ary)
-  else
-    swape_alg(ary)
-  end
-end
-
 first_ary = Array.new(4).map{Array.new(4,0)}
 
 rand(8)
