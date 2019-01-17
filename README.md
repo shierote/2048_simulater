@@ -5,6 +5,7 @@
 ```
 $ cd 2048_simulater
 $ ruby simulater.rb
+$ ruby simulater.rb --log (過程のログを出力したい場合)
 ```
 
 局所的に試したければ
