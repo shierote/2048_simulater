@@ -8,7 +8,7 @@ options = ARGV.getopts("", "log")
 list = []
 
 result = Benchmark.realtime do
-  1000.times do
+  100.times do
     p "初期状態" if options["log"]
     ary = set_first_ary
     array_print(ary) if options["log"]
@@ -25,4 +25,4 @@ end
 # p "最頻値：#{list.max_by {|value| list.count(value)}}"
 p "各ゲーム最大値のの平均値     #{list.sum {|l| l[:max]}.to_f / list.size}"
 p "各ゲームスワイプ回数の平均値 #{list.sum {|l| l[:num]}.to_f / list.size}"
-p "処理概要 #{result}s"
+p "処理時間                     #{result}s"
