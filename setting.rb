@@ -99,13 +99,13 @@ def do_game(ary, log)
     ary_tmp = Marshal.load(Marshal.dump(ary))
     # このswape_algがswape方向を決めるアルゴリズム
     ary = swape_alg(ary, log)
+    num += 1
     if ary != ary_tmp
       ary = random_1(ary)
     end
     array_print(ary) if log
     # p ary
     ary_test = Marshal.load(Marshal.dump(ary))
-    num += 1
     if game_over?(ary_test)
       result = ary
       mark = false
