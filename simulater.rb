@@ -36,6 +36,6 @@ end
 p "ゲーム回数                   #{game_number}回"
 p "全ゲームの最大値             #{list_max}"
 p "全ゲームの最大値の時の回数   #{list_max_num}"
-p "各ゲーム最大値のの平均値     #{list.sum {|l| l[:max]}.to_f / list.size}"
+p "各ゲーム最大値のの平均値     #{list.inject(0) {|sum, hash| sum + hash[:max]}.to_f / list.size}"
 p "各ゲームスワイプ回数の平均値 #{list.sum {|l| l[:num]}.to_f / list.size}"
 p "処理時間                     #{result}s"

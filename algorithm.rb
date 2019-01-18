@@ -19,6 +19,26 @@ def swape_alg(ary, log)
   end
 end
 
+def swape_alg3(ary, log)
+  ram = rand(0..3)
+  if ram == 0
+    p "===top===" if log
+    return to_top(ary)
+
+  elsif ram == 1
+    p "===left===" if log
+    return to_left(ary)
+
+  elsif ram == 2 
+    p "===right===" if log
+    return to_right(ary)
+
+  else
+    p "===bottom===" if log
+    return to_bottom(ary)
+  end
+end
+
 def swape_alg2(ary)
   p '方向を入力してください。h:← j:↓ k:↑ l:→'
   input = gets
