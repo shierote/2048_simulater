@@ -93,6 +93,7 @@ def set_first_ary
 end
 
 def do_game(ary, log)
+  num = 0
   mark = true
   while(mark) do
     ary_tmp = Marshal.load(Marshal.dump(ary))
@@ -104,6 +105,7 @@ def do_game(ary, log)
     array_print(ary) if log
     # p ary
     ary_test = Marshal.load(Marshal.dump(ary))
+    num += 1
     if game_over?(ary_test)
       result = ary
       mark = false
@@ -111,5 +113,5 @@ def do_game(ary, log)
       array_print(ary) if log
     end
   end
-  return result
+  return [result, num]
 end

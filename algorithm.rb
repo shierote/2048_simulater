@@ -41,3 +41,23 @@ def swape_alg2(ary)
     return to_bottom(ary)
   end
 end
+
+# Minimaxアルゴリズム
+def swape_alg_minimax(ary, log)
+  if ary.flatten != to_top(ary).flatten
+    p "===top===" if log
+    return to_top(ary)
+
+  elsif ary.flatten != to_left(ary).flatten
+    p "===left===" if log
+    return to_left(ary)
+
+  elsif ary.flatten != to_right(ary).flatten
+    p "===right===" if log
+    return to_right(ary)
+
+  else ary.flatten != to_bottom(ary).flatten
+    p "===bottom===" if log
+    return to_bottom(ary)
+  end
+end
