@@ -104,3 +104,34 @@ def ltrb_alg(ary, log)
     return to_bottom(ary)
   end
 end
+
+# ゲーム木アルゴリズム（1手先まで読む）
+def tree_alg(ary, log)
+  tree_list = []
+  ary_test = Marshal.load(Marshal.dump(ary))
+  left = to_left(ary)
+  tree_list.push([0, tree_alg_score(left)]) if ary_test != left
+  right = to_right(ary)
+  tree_list.push([1, tree_alg_score(right)]) if ary_test != right
+  top = to_top(ary)
+  tree_list.push([2, tree_alg_score(top)]) if ary_test != top
+  bottom = to_bottom(ary)
+  tree_list.push([3, tree_alg_score(bottom)]) if ary_test != bottom
+  tree_list.sort_by {|x| x[1]}
+  max = tree_list[0][0]
+  p max if log
+  case max
+  when 0
+    return to_left(ary)
+  when 1
+    return to_right(ary)
+  when 2
+    return to_top(ary)
+  else
+    return to_bottom(ary)
+  end
+end
+
+def tree_alg_score(ary)
+  zero_list(ary).size
+end

@@ -102,6 +102,7 @@ def do_game(ary, alg ,log)
     ary = ltrb_alg(ary, log) if alg == "ltrb"
     ary = rand_alg(ary, log) if alg == "rand"
     ary = debug_alg(ary, log) if alg == "debug"
+    ary = tree_alg(ary, log) if alg == "tree"
     num += 1
     if ary != ary_tmp
       ary = random_1(ary)
