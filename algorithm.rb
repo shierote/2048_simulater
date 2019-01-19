@@ -1,6 +1,7 @@
 require './setting'
 
-def swape_alg(ary, log)
+# 上左右下アルゴリズム
+def tlrb_alg(ary, log)
   if ary.flatten != to_top(ary).flatten
     p "===top===" if log
     return to_top(ary)
@@ -19,7 +20,8 @@ def swape_alg(ary, log)
   end
 end
 
-def swape_alg3(ary, log)
+# 完全にランダム
+def rand_alg(ary, log)
   ram = rand(0..3)
   if ram == 0
     p "===top===" if log
@@ -39,7 +41,8 @@ def swape_alg3(ary, log)
   end
 end
 
-def swape_alg2(ary)
+# デバッグ用アルゴリズム
+def debug_alg(ary)
   p '方向を入力してください。h:← j:↓ k:↑ l:→'
   input = gets
   input.chomp!
@@ -63,7 +66,7 @@ def swape_alg2(ary)
 end
 
 # Minimaxアルゴリズム
-def swape_alg_minimax(ary, log)
+def minimax_alg(ary, log)
   if ary.flatten != to_top(ary).flatten
     p "===top===" if log
     return to_top(ary)
@@ -71,6 +74,26 @@ def swape_alg_minimax(ary, log)
   elsif ary.flatten != to_left(ary).flatten
     p "===left===" if log
     return to_left(ary)
+
+  elsif ary.flatten != to_right(ary).flatten
+    p "===right===" if log
+    return to_right(ary)
+
+  else ary.flatten != to_bottom(ary).flatten
+    p "===bottom===" if log
+    return to_bottom(ary)
+  end
+end
+
+# 左上右下アルゴリズム
+def ltrb_alg(ary, log)
+  if ary.flatten != to_left(ary).flatten
+    p "===left===" if log
+    return to_left(ary)
+
+  elsif ary.flatten != to_top(ary).flatten
+    p "===top===" if log
+    return to_top(ary)
 
   elsif ary.flatten != to_right(ary).flatten
     p "===right===" if log

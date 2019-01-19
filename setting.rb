@@ -92,13 +92,16 @@ def set_first_ary
   return first_ary
 end
 
-def do_game(ary, log)
+def do_game(ary, alg ,log)
   num = 0
   mark = true
   while(mark) do
     ary_tmp = Marshal.load(Marshal.dump(ary))
-    # このswape_algがswape方向を決めるアルゴリズム
-    ary = swape_alg(ary, log)
+    # この_algがswape方向を決めるアルゴリズム
+    ary = tlrb_alg(ary, log) if alg == "tlrb"
+    ary = ltrb_alg(ary, log) if alg == "ltrb"
+    ary = rand_alg(ary, log) if alg == "rand"
+    ary = debug_alg(ary, log) if alg == "debug"
     num += 1
     if ary != ary_tmp
       ary = random_1(ary)

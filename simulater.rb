@@ -6,22 +6,30 @@ require 'benchmark'
 options = ARGV.getopts("", "log")
 
 list = []
+max_list = []
+game_max = 0
+game_max_num = 0
 
-game_number = 100
-list_max = 0
-list_max_num = 0
+############################
+# ゲーム回数
+game_number = 1000
+# どのアルゴリズムを使うか
+used_alg = "tlrb"
+############################
 
 result = Benchmark.realtime do
   game_number.times do
     p "初期状態" if options["log"]
     ary = set_first_ary
     array_print(ary) if options["log"]
-    max = do_game(ary, options["log"])[0].flatten.max
-    num = do_game(ary, options["log"])[1]
+    game_result = do_game(ary, used_alg, options["log"])
+    max = game_result[0].flatten.max
+    num = game_result[1]
     list.push({ max: max, num: num })
-    if list_max < max
-      list_max = max
-      list_max_num = num
+    max_list.push(max)
+    if game_max < max
+      game_max = max
+      game_max_num = num
     end
   end
 end
@@ -33,9 +41,11 @@ end
 # p "最小値：#{list.min}"
 # p "平均値：#{list.inject(0.0){|r,i| r+=i }/list.size}"
 # p "最頻値：#{list.max_by {|value| list.count(value)}}"
+p "使用しているアルゴリズム     #{used_alg}"
+# p max_list.group_by(&:itself).map{|k, v| [k, v.size]}.to_h
 p "ゲーム回数                   #{game_number}回"
-p "全ゲームの最大値             #{list_max}"
-p "全ゲームの最大値の時の回数   #{list_max_num}"
+p "全ゲームの最大値             #{game_max}"
+p "全ゲームの最大値の時の回数   #{game_max_num}"
 p "各ゲーム最大値のの平均値     #{list.inject(0) {|sum, hash| sum + hash[:max]}.to_f / list.size}"
 p "各ゲームスワイプ回数の平均値 #{list.inject(0) {|sum, hash| sum + hash[:num]}.to_f / list.size}"
 p "処理時間                     #{result}s"
