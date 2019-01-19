@@ -4,7 +4,7 @@ require 'optparse'
 require 'benchmark'
 require "csv"
 
-options = ARGV.getopts("", "log", "csv", "alg:", "game_num:")
+options = ARGV.getopts("", "log", "csv", "alg:", "game_num:", "hist")
 
 list = []
 max_list = []
@@ -60,11 +60,24 @@ if options["csv"]
   end
 end
 
-p "最大値のヒストグラム         #{h}"
+if options["hist"]
+  p "最大値のヒストグラム         #{h}"
+  sum = 0
+  h.each do |k, v|
+    sum += k*v
+  end
+  p "総合点                       #{sum}"
+end
+
 p "使用しているアルゴリズム     #{used_alg}"
 p "ゲーム回数                   #{game_number}回"
-p "全ゲームの最大値             #{game_max}"
-p "全ゲームの最大値の時の回数   #{game_max_num}"
-p "各ゲーム最大値のの平均値     #{list.inject(0) {|sum, hash| sum + hash[:max]}.to_f / list.size}"
-p "各ゲームスワイプ回数の平均値 #{list.inject(0) {|sum, hash| sum + hash[:num]}.to_f / list.size}"
-p "処理時間                     #{result}s"
+
+unless options["hist"]
+  p "使用しているアルゴリズム     #{used_alg}"
+  p "ゲーム回数                   #{game_number}回"
+  p "全ゲームの最大値             #{game_max}"
+  p "全ゲームの最大値の時の回数   #{game_max_num}"
+  p "各ゲーム最大値のの平均値     #{list.inject(0) {|sum, hash| sum + hash[:max]}.to_f / list.size}"
+  p "各ゲームスワイプ回数の平均値 #{list.inject(0) {|sum, hash| sum + hash[:num]}.to_f / list.size}"
+  p "処理時間                     #{result}s"
+end

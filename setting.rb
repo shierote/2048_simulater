@@ -5,21 +5,25 @@ end
 
 # 左スワイプ
 def to_left(ary)
-  ary.select{|a| a = add(a)}
+  ary_tmp = Marshal.load(Marshal.dump(ary))
+  return ary_tmp.select{|a| a = add(a)}
 end
 
 def to_right(ary)
-  ary.select{|a| a = add(a.reverse!).reverse!}
+  ary_tmp = Marshal.load(Marshal.dump(ary))
+  return ary_tmp.select{|a| a = add(a.reverse!).reverse!}
 end
 
 def to_top(ary)
-  ary2 = ary.transpose
-  ary2.select{|a| a = add(a)}.transpose
+  ary_tmp = Marshal.load(Marshal.dump(ary))
+  ary_tmp = ary_tmp.transpose
+  return ary_tmp.select{|a| a = add(a)}.transpose
 end
 
 def to_bottom(ary)
-  ary2 = ary.transpose
-  ary2.select{|a| a = add(a.reverse!).reverse!}.transpose
+  ary_tmp = Marshal.load(Marshal.dump(ary))
+  ary_tmp = ary_tmp.transpose
+  return ary_tmp.select{|a| a = add(a.reverse!).reverse!}.transpose
 end
 
 # スワイプ時の足し算
@@ -103,6 +107,7 @@ def do_game(ary, alg ,log)
     ary = rand_alg(ary, log) if alg == "rand"
     ary = debug_alg(ary, log) if alg == "debug"
     ary = tree_alg(ary, log) if alg == "tree"
+    ary = ltrb_tree_alg(ary, log) if alg == "ltrb_tree"
     num += 1
     if ary != ary_tmp
       ary = random_1(ary)
