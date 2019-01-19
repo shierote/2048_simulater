@@ -58,7 +58,7 @@ end
 
 # ランダムで2か4を一つ0のところに加える
 def random_1(ary)
-  return [] if zero_list(ary).length == 0
+  return ary if zero_list(ary).length == 0
   change_list = zero_list(ary)[rand(0..zero_list(ary).length-1)]
   ary[change_list[0]][change_list[1]] = 2*rand(1..2)
   return ary
@@ -77,8 +77,8 @@ end
 
 # これ以上動かせなければtrueを返す
 def game_over?(ary)
-  if ary.flatten == to_top(ary).flatten && ary.flatten == to_left(ary).flatten \
-        && ary.flatten == to_right(ary).flatten && ary.flatten == to_bottom(ary).flatten
+  if ary == to_top(ary) && ary == to_left(ary) \
+        && ary == to_right(ary) && ary == to_bottom(ary)
     return true
   end
   return false
@@ -108,6 +108,7 @@ def do_game(ary, alg ,log)
     ary = debug_alg(ary, log) if alg == "debug"
     ary = tree_alg(ary, log) if alg == "tree"
     ary = ltrb_tree_alg(ary, log) if alg == "ltrb_tree"
+    ary = ltrb_tree_alg_3(ary, log) if alg == "ltrb_tree_3"
     num += 1
     if ary != ary_tmp
       ary = random_1(ary)

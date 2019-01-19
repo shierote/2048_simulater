@@ -2,9 +2,9 @@ require './setting'
 require './algorithm'
 require 'optparse'
 require 'benchmark'
-require "csv"
+require 'csv'
 
-options = ARGV.getopts("", "log", "csv", "alg:", "game_num:", "hist")
+options = ARGV.getopts("", "log", "csv", "alg:", "game_num:", "hist", "no_log")
 
 list = []
 max_list = []
@@ -69,10 +69,7 @@ if options["hist"]
   p "総合点                       #{sum}"
 end
 
-p "使用しているアルゴリズム     #{used_alg}"
-p "ゲーム回数                   #{game_number}回"
-
-unless options["hist"]
+unless options["no_log"]
   p "使用しているアルゴリズム     #{used_alg}"
   p "ゲーム回数                   #{game_number}回"
   p "全ゲームの最大値             #{game_max}"
