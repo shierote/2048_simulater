@@ -149,10 +149,10 @@ def ltrb_tree_alg_3(ary, log)
   end
   tree_list.sort_by! {|x| x[3]}.reverse!
   p tree_list[0] if log
-  a = swape_ary(random_1(swape_ary(random_1(swape_ary(ary, tree_list[0][0])), tree_list[0][1])), tree_list[0][2])
+  a = swape_ary(ary, tree_list[0][0])
   if ary == a
     tree_list.each do |l|
-      a = swape_ary(random_1(swape_ary(random_1(swape_ary(ary, l[0])), l[1])), l[2])
+      a = swape_ary(ary, l[0])
       return a if ary != a
     end
   end
@@ -182,6 +182,27 @@ def ltrb_tree_alg(ary, log)
   return a
 end
 
+def ltrb_tree_alg_2(ary, log)
+  tree_list = []
+  4.times do |i|
+    4.times do |j|
+      sw_ary = random_1(swape_ary(random_1(swape_ary(ary, i)), j))
+      tree_list.push([i, j, ltrb_tree_score(sw_ary)])
+    end
+  end
+  tree_list.sort_by! {|x| x[2]}.reverse!
+  p tree_list[0] if log
+  a = swape_ary(ary, tree_list[0][0])
+  if ary == a
+    tree_list.each do |l|
+      a = swape_ary(ary, l[0])
+      return a if ary != a
+    end
+  end
+  p a if log
+  return a
+end
+
 def swape_ary(ary, n) 
   left = to_left(ary)
   right = to_right(ary)
@@ -201,18 +222,19 @@ end
 
 
 def ltrb_tree_score(ary)
-  # sl = [[1024,   16,   4,   2],
-  #       [  16,    4,   2,   1],
-  #       [   4,    2,   1,   0],
-  #       [   2,    1,   0,   0]]
-  sl = [[1024,  256, 128,  64],
-        [  32,   16,   8,   4],
-        [   2,    1,   0,   0],
-        [   0,    0,   0,   0]]
+  score_list = [[8192,  4096, 2048,  1048],
+                [  64,   128,  256,   512],
+                [  32,    16,    8,     4],
+                [   0,     0,    0,     2]]
+  # array_print(score_list) 
+  # score_list = [[1024,  256, 128,  64],
+  #       [   4,    8,  16,  32],
+  #       [   0,    0,   0,   0],
+  #       [   0,    0,   0,   0]]
   s = 0
   4.times do |i|
     4.times do |j|
-      s += ary[i][j]*sl[i][j]
+      s += ary[i][j]*score_list[i][j]
     end
   end
   return s

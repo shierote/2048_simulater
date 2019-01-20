@@ -108,6 +108,7 @@ def do_game(ary, alg ,log)
     ary = debug_alg(ary, log) if alg == "debug"
     ary = tree_alg(ary, log) if alg == "tree"
     ary = ltrb_tree_alg(ary, log) if alg == "ltrb_tree"
+    ary = ltrb_tree_alg_2(ary, log) if alg == "ltrb_tree_2"
     ary = ltrb_tree_alg_3(ary, log) if alg == "ltrb_tree_3"
     num += 1
     if ary != ary_tmp
