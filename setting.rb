@@ -60,8 +60,9 @@ end
 def random_1(ary)
   return ary if zero_list(ary).length == 0
   change_list = zero_list(ary)[rand(0..zero_list(ary).length-1)]
-  ary[change_list[0]][change_list[1]] = 2*rand(1..2)
-  return ary
+  ary_tmp = Marshal.load(Marshal.dump(ary))
+  ary_tmp[change_list[0]][change_list[1]] = 2*rand(1..2)
+  return ary_tmp
 end
 
 # 0の位置を表す配列を返す（ixj行列のイメージで）
@@ -100,8 +101,8 @@ def do_game(ary, alg ,log)
   num = 0
   mark = true
   while(mark) do
-    ary_tmp = Marshal.load(Marshal.dump(ary))
     # この_algがswape方向を決めるアルゴリズム
+    ary_tmp = Marshal.load(Marshal.dump(ary))
     ary = tlrb_alg(ary, log) if alg == "tlrb"
     ary = ltrb_alg(ary, log) if alg == "ltrb"
     ary = rand_alg(ary, log) if alg == "rand"
@@ -115,7 +116,6 @@ def do_game(ary, alg ,log)
       ary = random_1(ary)
     end
     array_print(ary) if log
-    # p ary
     ary_test = Marshal.load(Marshal.dump(ary))
     if game_over?(ary_test)
       result = ary

@@ -143,7 +143,11 @@ def ltrb_tree_alg_3(ary, log)
     4.times do |j|
       4.times do |k|
         sw_ary = random_1(swape_ary(random_1(swape_ary(random_1(swape_ary(ary, i)), j)), k))
-        tree_list.push([i, j, k, ltrb_tree_score(sw_ary)])
+        if i == 3 || j == 3 || k == 3
+          tree_list.push([i, j, k, ltrb_tree_score(sw_ary)/((i+1)*(j+1)*(k+1))])
+        else
+          tree_list.push([i, j, k, ltrb_tree_score(sw_ary)])
+        end
       end
     end
   end
@@ -159,7 +163,6 @@ def ltrb_tree_alg_3(ary, log)
   p a if log
   return a
 end
-
 
 def ltrb_tree_alg(ary, log)
   tree_list = []
@@ -199,6 +202,18 @@ def ltrb_tree_alg_2(ary, log)
       return a if ary != a
     end
   end
+  CSV.open("csv/result_#{Date.today.strftime("%Y%m%d_%H")}.csv","a") do |test|
+    test << [nil , nil, nil, nil]
+    ary.each do |a|
+      test << a
+    end
+    test << [nil , nil, nil, nil]
+    test << [tree_list[0][0]]
+    a.each do |gr|
+      test << gr
+    end
+    test << [nil , nil, nil, nil]
+  end
   p a if log
   return a
 end
@@ -222,23 +237,23 @@ end
 
 
 def ltrb_tree_score(ary)
-  score_list = [[8192,  4096, 2048,  1048],
-                [  64,   128,  256,   512],
-                [  32,    16,    8,     4],
-                [   0,     0,    0,     2]]
+  # score_list = [[8192,  4096, 2048,  1048],
+  #               [  64,   128,  256,   512],
+  #               [  32,    16,    8,     4],
+  #               [   0,     0,    0,     2]]
   # array_print(score_list) 
   # score_list = [[1024,  256, 128,  64],
   #       [   4,    8,  16,  32],
   #       [   0,    0,   0,   0],
   #       [   0,    0,   0,   0]]
-  # score_list = [[2048+(2048/(ary[0][0]+1)),  1024+(1024/(ary[0][1]+1)), 512+(1024/(ary[0][2]+1)),  256+(1024/(ary[0][3]+1))],
-  #       [  16,   32,   64,   128],
-  #       [   8,    4,   2,   1],
-  #       [   1,    0,   0,   0]]
+  score_list = [[16384+(2048/(ary[0][0]+1)), 4096+(1024/(ary[0][1]+1)), 2048+(1024/(ary[0][2]+1)), 1048+(1024/(ary[0][3]+1))],
+        [   4,   8,  16,   32],
+        [   0,    0,   0,  -16],
+        [   0,    0,   -16,  -16]]
   s = 0
   4.times do |i|
     4.times do |j|
-      s += ary[i][j]*score_list[i][j]
+      s += ary[i][j]*score_list[i][j]*zero_list(ary).size
     end
   end
   return s
