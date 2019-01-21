@@ -103,14 +103,28 @@ def do_game(ary, alg ,log)
   while(mark) do
     # この_algがswape方向を決めるアルゴリズム
     ary_tmp = Marshal.load(Marshal.dump(ary))
-    ary = tlrb_alg(ary, log) if alg == "tlrb"
-    ary = ltrb_alg(ary, log) if alg == "ltrb"
-    ary = rand_alg(ary, log) if alg == "rand"
-    ary = debug_alg(ary, log) if alg == "debug"
-    ary = tree_alg(ary, log) if alg == "tree"
-    ary = ltrb_tree_alg(ary, log) if alg == "ltrb_tree"
-    ary = ltrb_tree_alg_2(ary, log) if alg == "ltrb_tree_2"
-    ary = ltrb_tree_alg_3(ary, log) if alg == "ltrb_tree_3"
+    case alg
+    when "tlrb"
+      ary = tlrb_alg(ary, log)
+    when "ltrb"
+      ary = ltrb_alg(ary, log)
+    when "rand"
+      ary = rand_alg(ary, log)
+    when "debug"
+      ary = debug_alg(ary, log)
+    when "tree"
+      ary = tree_alg(ary, log)
+    when "ltrb_tree"
+      ary = ltrb_tree_alg(ary, log)
+    when "ltrb_tree_2"
+      ary = ltrb_tree_alg_2(ary, log)
+    when "ltrb_tree_3"
+      ary = ltrb_tree_alg_3(ary, log)
+    when "tree_4"
+      ary = tree_alg_4(ary, log)
+    else
+      ary = debug_alg(ary, log)
+    end
     num += 1
     if ary != ary_tmp
       ary = random_1(ary)
@@ -120,8 +134,7 @@ def do_game(ary, alg ,log)
     if game_over?(ary_test)
       result = ary
       mark = false
-      p "===終了===" if log
-      array_print(ary) if log
+      p "===game over===" if log
     end
   end
   return [result, num]
