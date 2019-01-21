@@ -1,7 +1,5 @@
 # ゲーム2048のシミュレーション
 ## 実行方法
-クローンしたのちに
-複数回試したければ
 ```
 $ git clone git@github.com:shierote/2048_simulater.git
 $ cd 2048_simulater
