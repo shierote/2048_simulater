@@ -22,9 +22,8 @@ used_alg = options["alg"] if options["alg"]
 
 result = Benchmark.realtime do
   game_number.times do
-    p "初期状態" if options["log"]
-    ary = set_first_ary
-    game_result = do_game(ary, used_alg, options["log"])
+    p "スタート" if options["log"]
+    game_result = do_game(set_first_ary, used_alg, options["log"])
     max = game_result[0].flatten.max
     num = game_result[1]
     list.push({ max: max, num: num })

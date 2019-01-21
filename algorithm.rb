@@ -20,6 +20,27 @@ def tlrb_alg(ary, log)
   end
 end
 
+# 左上右下アルゴリズム
+def ltrb_alg(ary, log)
+  if ary != to_left(ary)
+    p "===left===" if log
+    return to_left(ary)
+
+  elsif ary != to_top(ary)
+    p "===top===" if log
+    return to_top(ary)
+
+  elsif ary != to_right(ary)
+    p "===right===" if log
+    return to_right(ary)
+
+  else ary != to_bottom(ary)
+    p "===bottom===" if log
+    return to_bottom(ary)
+  end
+end
+
+
 # 完全にランダム
 def rand_alg(ary, log)
   ram = rand(0..3)
@@ -64,46 +85,6 @@ def debug_alg(ary, log)
     return to_bottom(ary)
   else
     debug_alg(ary, log)
-  end
-end
-
-# Minimaxアルゴリズム
-def minimax_alg(ary, log)
-  #if ary.flatten != to_top(ary).flatten
-  #  p "===top===" if log
-  #  return to_top(ary)
-
-  #elsif ary.flatten != to_left(ary).flatten
-  #  p "===left===" if log
-  #  return to_left(ary)
-
-  #elsif ary.flatten != to_right(ary).flatten
-  #  p "===right===" if log
-  #  return to_right(ary)
-
-  #else ary.flatten != to_bottom(ary).flatten
-  #  p "===bottom===" if log
-  #  return to_bottom(ary)
-  #end
-end
-
-# 左上右下アルゴリズム
-def ltrb_alg(ary, log)
-  if ary != to_left(ary)
-    p "===left===" if log
-    return to_left(ary)
-
-  elsif ary != to_top(ary)
-    p "===top===" if log
-    return to_top(ary)
-
-  elsif ary != to_right(ary)
-    p "===right===" if log
-    return to_right(ary)
-
-  else ary != to_bottom(ary)
-    p "===bottom===" if log
-    return to_bottom(ary)
   end
 end
 
@@ -152,7 +133,6 @@ def ltrb_tree_alg_3(ary, log)
     end
   end
   tree_list.sort_by! {|x| x[3]}.reverse!
-  p tree_list[0] if log
   a = swape_ary(ary, tree_list[0][0])
   if ary == a
     tree_list.each do |l|
@@ -162,6 +142,123 @@ def ltrb_tree_alg_3(ary, log)
   end
   p a if log
   return a
+end
+
+def tree_alg_4(ary, log)
+  tree_list = []
+  # zero_count = zero_list(ary).size
+  # if zero_count < 1
+  #   4.times do |i|
+  #     4.times do |j|
+  #       sw_ary = random_1(swape_ary(random_1(swape_ary(ary, i)), j))
+  #       tree_list.push([i, j, ltrb_tree_score(sw_ary)*zero_count])
+  #     end
+  #   end
+  #   tree_list.sort_by! {|x| x[2]}.reverse!
+  #   a = swape_ary(ary, tree_list[0][0])
+  #   if ary == a
+  #     tree_list.each do |l|
+  #       a = swape_ary(ary, l[0])
+  #       return a if ary != a
+  #     end
+  #   end
+  #   return a
+  # end
+  4.times do |i|
+    4.times do |j|
+      4.times do |k|
+      #   4.times do |m|
+          # sw_ary = random_1(swape_ary(random_1(swape_ary(random_1(swape_ary(random_1(swape_ary(ary, i)), j)), k)), m))
+          sw_ary = swape_ary(random_1(swape_ary(ary, i)), j)
+          sw_ary = swape_ary(random_1(swape_ary(random_1(swape_ary(ary, i)), j)), k)
+          lt_score  = ltrb_tree_score(sw_ary)
+          lt_score /= 30  if sw_ary.flatten.max != sw_ary[0][0]
+          # lt_score /= (i+1)*(j+1)*(k+1)*(m+1) if i == 3 || j == 3 || k == 3 || m == 3
+          lt_score /= (i+1)*(j+1) if i == 3 || j == 3
+          lt_score /= 10 if sw_ary[0].include?(0) && (i == 2)
+
+          # tree_list.push([i, j, k, m, lt_score])
+          # tree_list.push([i, j, lt_score])
+          tree_list.push([i, j, k, lt_score])
+      #   end
+      end
+    end
+  end
+  # tree_list.sort_by! {|x| x[4]}.reverse!
+  tree_list.sort_by! {|x| x[3]}.reverse!
+  a = swape_ary(ary, tree_list[0][0])
+  if ary == a
+    tree_list.each do |l|
+      a = swape_ary(ary, l[0])
+      return a if ary != a
+    end
+  end
+  p "=========" if log
+  return a
+end
+
+def ltrb_tree_alg_5(ary, log)
+  tree_list = []
+  4.times do |i|
+    4.times do |j|
+      4.times do |k|
+        4.times do |m|
+        #  if ary.flatten.count(0) > 4 || ary.flatten.max < 2048
+           sw_ary1 = random_1(swape_ary(ary, i))
+           sw_ary2 = random_1(swape_ary(sw_ary1, j))
+           sw_ary3 = random_1(swape_ary(sw_ary2, k))
+           sw_ary = random_1(swape_ary(sw_ary3, m))
+
+           score = ltrb_tree_score(sw_ary)
+           #score *= 5 if i == 0
+           #score *= 5 if j == 0
+           #score *= 5 if k == 0
+           score = 0 if i == 3
+           score = 0 if j == 3
+           score = 0 if k == 3
+           score = 0 if m == 3
+           #score = 0 if ary[0][2] == 0 && i == 2
+           #score = 0 if ary[0][3] == 0 && i == 2
+           if ary.flatten.max > 256
+             score = 0 if sw_ary1.flatten.max != sw_ary1[0][0]
+             score = 0 if sw_ary2.flatten.max != sw_ary2[0][0]
+             score = 0 if sw_ary3.flatten.max != sw_ary3[0][0]
+             score = 0 if sw_ary.flatten.max != sw_ary[0][0]
+           end
+           score /= 20 if sw_ary1[0].include?(0) && i == 2
+           score /= 15 if sw_ary2[0].include?(0) && j == 2
+           score /= 10 if sw_ary3[0].include?(0) && k == 2
+           score /= 5 if sw_ary[0].include?(0) && m == 2
+           #score /= 5 if sw_ary[0].min < sw_ary[1].max
+           score = 0 if game_over?(sw_ary1) #OK
+           score = 0 if game_over?(sw_ary2) #OK
+           score = 0 if game_over?(sw_ary) #OK
+           tree_list.push([i, j, k, m, score, sw_ary])
+        #  else
+        #   score = ary[0].inject(:+)
+        #   score *= ary[1].inject(:+)
+        #   tree_list.push([i, j, k, score])
+        # end
+        end
+      end
+    end
+  end
+  tree_list.sort_by! {|x| x[4]}.reverse!
+  p "========" if log
+  a = swape_ary(ary, tree_list[0][0])
+  if ary == a
+    tree_list.each do |l|
+      a = swape_ary(ary, l[0])
+      if ary != a 
+        csv_log(ary, l[0])
+        csv_log(a, "↑スワイプ後(#{tree_list.index(l)+1}位を採用)")
+        return a 
+      end
+    end
+  end
+  csv_log(ary, tree_list[0][0])
+  csv_log(a, "↑スワイプ後")
+  return tree_list[0][5]
 end
 
 def ltrb_tree_alg(ary, log)
@@ -202,18 +299,6 @@ def ltrb_tree_alg_2(ary, log)
       return a if ary != a
     end
   end
-  CSV.open("csv/result_#{Date.today.strftime("%Y%m%d_%H")}.csv","a") do |test|
-    test << [nil , nil, nil, nil]
-    ary.each do |a|
-      test << a
-    end
-    test << [nil , nil, nil, nil]
-    test << [tree_list[0][0]]
-    a.each do |gr|
-      test << gr
-    end
-    test << [nil , nil, nil, nil]
-  end
   p a if log
   return a
 end
@@ -223,7 +308,6 @@ def swape_ary(ary, n)
   right = to_right(ary)
   top = to_top(ary)
   bottom = to_bottom(ary)
-  # require'pry';binding.pry
   if n == 0
     return left
   elsif n == 1
@@ -237,29 +321,15 @@ end
 
 
 def ltrb_tree_score(ary)
-  # score_list = [[8192,  4096, 2048,  1048],
-  #               [  64,   128,  256,   512],
-  #               [  32,    16,    8,     4],
-  #               [   0,     0,    0,     2]]
-  # array_print(score_list) 
-  # score_list = [[1024,  256, 128,  64],
-  #       [   4,    8,  16,  32],
-  #       [   0,    0,   0,   0],
-  #       [   0,    0,   0,   0]]
-  score_list = [[16384+(2048/(ary[0][0]+1)), 4096+(1024/(ary[0][1]+1)), 2048+(1024/(ary[0][2]+1)), 1048+(1024/(ary[0][3]+1))],
-        [   4,   8,  16,   32],
-        [   0,    0,   0,  -16],
-        [   0,    0,   -16,  -16]]
+  score_list = [[16384, 4096, 1024, 256],
+                [    0,    4,   16,  64],
+                [    0,    0,    0,  16],
+                [    0,    0,    0,   0]]
   s = 0
   4.times do |i|
     4.times do |j|
-      s += ary[i][j]*score_list[i][j]*zero_list(ary).size
+      s += ary[i][j]*score_list[i][j]
     end
   end
   return s
-  # return  ary[0][0]*64 \
-  #       + ary[0][1]*16 + ary[1][0]*16 \
-  #       + ary[0][2]*4 + ary[1][1]*4 + ary[2][0]*4 \
-  #       + ary[0][3]*2 + ary[1][2]*2 + ary[2][1]*2 + ary[3][0]*2 \
-  #                     + ary[1][3]*1 + ary[2][2]*1 + ary[3][1]*1
 end

@@ -122,20 +122,34 @@ def do_game(ary, alg ,log)
       ary = ltrb_tree_alg_3(ary, log)
     when "tree_4"
       ary = tree_alg_4(ary, log)
+    when "tree_5"
+      ary = ltrb_tree_alg_5(ary, log)
     else
       ary = debug_alg(ary, log)
     end
     num += 1
-    if ary != ary_tmp
-      ary = random_1(ary)
-    end
+    # if ary != ary_tmp
+    #   ary = random_1(ary)
+    # end
     array_print(ary) if log
     ary_test = Marshal.load(Marshal.dump(ary))
     if game_over?(ary_test)
       result = ary
+      csv_log(ary, "終了状態")
       mark = false
       p "===game over===" if log
     end
   end
   return [result, num]
+end
+
+def csv_log(ary, n)
+  # CSV.open("csv/result_#{Date.today.strftime("%Y%m%d_%H")}.csv","a") do |test|
+  #   test << [nil , nil, nil, nil]
+  #   ary.each do |a|
+  #     test << a
+  #   end
+  #   test << [n]
+  #   test << [nil , nil, nil, nil]
+  # end
 end
