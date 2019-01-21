@@ -135,7 +135,7 @@ def do_game(ary, alg ,log)
     ary_test = Marshal.load(Marshal.dump(ary))
     if game_over?(ary_test)
       result = ary
-      csv_log(ary, "終了状態")
+      # csv_log(ary, "終了状態")
       mark = false
       p "===game over===" if log
     end

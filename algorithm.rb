@@ -174,7 +174,7 @@ def tree_alg_4(ary, log)
           lt_score  = ltrb_tree_score(sw_ary)
           lt_score /= 30  if sw_ary.flatten.max != sw_ary[0][0]
           # lt_score /= (i+1)*(j+1)*(k+1)*(m+1) if i == 3 || j == 3 || k == 3 || m == 3
-          lt_score /= (i+1)*(j+1) if i == 3 || j == 3
+          lt_score /= (i+1)*(j+1)*(k+1) if i == 3 || j == 3 || k == 3
           lt_score /= 10 if sw_ary[0].include?(0) && (i == 2)
 
           # tree_list.push([i, j, k, m, lt_score])
@@ -202,12 +202,10 @@ def ltrb_tree_alg_5(ary, log)
   4.times do |i|
     4.times do |j|
       4.times do |k|
-        4.times do |m|
         #  if ary.flatten.count(0) > 4 || ary.flatten.max < 2048
            sw_ary1 = random_1(swape_ary(ary, i))
            sw_ary2 = random_1(swape_ary(sw_ary1, j))
-           sw_ary3 = random_1(swape_ary(sw_ary2, k))
-           sw_ary = random_1(swape_ary(sw_ary3, m))
+           sw_ary = random_1(swape_ary(sw_ary2, k))
 
            score = ltrb_tree_score(sw_ary)
            #score *= 5 if i == 0
@@ -216,34 +214,30 @@ def ltrb_tree_alg_5(ary, log)
            score = 0 if i == 3
            score = 0 if j == 3
            score = 0 if k == 3
-           score = 0 if m == 3
            #score = 0 if ary[0][2] == 0 && i == 2
            #score = 0 if ary[0][3] == 0 && i == 2
            if ary.flatten.max > 256
              score = 0 if sw_ary1.flatten.max != sw_ary1[0][0]
              score = 0 if sw_ary2.flatten.max != sw_ary2[0][0]
-             score = 0 if sw_ary3.flatten.max != sw_ary3[0][0]
              score = 0 if sw_ary.flatten.max != sw_ary[0][0]
            end
-           score /= 20 if sw_ary1[0].include?(0) && i == 2
-           score /= 15 if sw_ary2[0].include?(0) && j == 2
-           score /= 10 if sw_ary3[0].include?(0) && k == 2
-           score /= 5 if sw_ary[0].include?(0) && m == 2
+           score /= 15 if sw_ary1[0].include?(0) && i == 2
+           score /= 10 if sw_ary2[0].include?(0) && j == 2
+           score /= 5 if sw_ary[0].include?(0) && k == 2
            #score /= 5 if sw_ary[0].min < sw_ary[1].max
            score = 0 if game_over?(sw_ary1) #OK
            score = 0 if game_over?(sw_ary2) #OK
            score = 0 if game_over?(sw_ary) #OK
-           tree_list.push([i, j, k, m, score, sw_ary])
+           tree_list.push([i, j, k, score, sw_ary])
         #  else
         #   score = ary[0].inject(:+)
         #   score *= ary[1].inject(:+)
         #   tree_list.push([i, j, k, score])
         # end
-        end
       end
     end
   end
-  tree_list.sort_by! {|x| x[4]}.reverse!
+  tree_list.sort_by! {|x| x[3]}.reverse!
   p "========" if log
   a = swape_ary(ary, tree_list[0][0])
   if ary == a
@@ -258,7 +252,7 @@ def ltrb_tree_alg_5(ary, log)
   end
   csv_log(ary, tree_list[0][0])
   csv_log(a, "↑スワイプ後")
-  return tree_list[0][5]
+  return tree_list[0][4]
 end
 
 def ltrb_tree_alg(ary, log)
