@@ -65,7 +65,27 @@ def random_1(ary)
   return ary_tmp
 end
 
-# 0の位置を表す配列を返す（ixj行列のイメージで）
+# 全ての位置に2or4を加える
+def all_1(ary)
+  ary_ary = []
+  if zero_list(ary).length == 0
+    ary_ary.push(ary)
+    return ary_ary
+  end
+  i = 0
+  ary_tmp = Marshal.load(Marshal.dump(ary))
+  while i < zero_list(ary).length
+    ary_tmp[zero_list(ary)[i][0]][zero_list(ary)[i][1]]= 2
+    ary_ary.push(ary_tmp)
+    ary_tmp[zero_list(ary)[i][0]][zero_list(ary)[i][1]]= 4
+    ary_ary.push(ary_tmp)
+    ary_tmp[zero_list(ary)[i][0]][zero_list(ary)[i][1]]= 0
+    i += 1
+  end
+  return ary_ary
+end
+
+# 0の位置を表す配列を返す（i行j列のイメージで）
 def zero_list(ary)
   zero_list = []
   ary.each_with_index do |a, i|
@@ -116,6 +136,8 @@ def do_game(ary, alg ,log)
       ary = tree_alg(ary, log)
     when "tree3"
       ary = tree3_score_alg(ary, log)
+    when "tree3-2"
+      ary = tree3_score_alg_2(ary,log)
     else
       ary = debug_alg(ary, log)
     end
