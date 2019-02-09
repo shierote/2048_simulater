@@ -52,7 +52,7 @@ def rand_alg(ary, log)
     p "===left===" if log
     return to_left(ary)
 
-  elsif ram == 2 
+  elsif ram == 2
     p "===right===" if log
     return to_right(ary)
 
@@ -124,12 +124,11 @@ def tree3_score_alg(ary, log)
   4.times do |i|
     4.times do |j|
       4.times do |k|
-         # if ary.flatten.count(0) > 4 || ary.flatten.max < 2048
-           sw_ary1 = random_1(swape_ary(ary, i))
+        sw_ary1 = random_1(swape_ary(ary, i))
            sw_ary2 = random_1(swape_ary(sw_ary1, j))
            sw_ary = random_1(swape_ary(sw_ary2, k))
 
-           score = ltrb_tree_score(sw_ary)
+           score = tree_score(sw_ary)
            #score *= 5 if i == 0
            #score *= 5 if j == 0
            #score *= 5 if k == 0
@@ -150,6 +149,7 @@ def tree3_score_alg(ary, log)
            score = 0 if game_over?(sw_ary1) #OK
            score = 0 if game_over?(sw_ary2) #OK
            score = 0 if game_over?(sw_ary) #OK
+
            tree_list.push([i, j, k, score])
          # else
          #  score = ary[0].inject(:+)
@@ -165,8 +165,8 @@ def tree3_score_alg(ary, log)
   if ary == a
     tree_list.each do |l|
       a = swape_ary(ary, l[0])
-      if ary != a 
-        return a 
+      if ary != a
+        return a
       end
     end
   end
@@ -175,7 +175,88 @@ def tree3_score_alg(ary, log)
   return a
 end
 
-def swape_ary(ary, n) 
+#色々改良した
+def tree3_score_alg_2(ary, log)
+  tree_list = [[0,0],[1,0],[2,0],[3,0]]
+  #if danger?(ary)
+  #  es = escape(ary)
+  #  tree_list_push()
+  4.times do |i|
+    4.times do |j|
+      4.times do |k|
+
+         5.times do
+
+           sw_ary1 = random_1(swape_ary(ary, i))
+           sw_ary2 = random_1(swape_ary(sw_ary1, j))
+           sw_ary = random_1(swape_ary(sw_ary2, k))
+
+           score = tree_score(sw_ary)
+           #score *= 5 if i == 0
+           #score *= 5 if j == 0
+           #score *= 5 if k == 0
+           score = 0 if i == 3
+           score = 0 if j == 3
+           score = 0 if k == 3
+            score = 0 if sw_ary1.flatten.max != sw_ary1[0][0]
+             score = 0 if sw_ary2.flatten.max != sw_ary2[0][0]
+             score = 0 if sw_ary.flatten.max != sw_ary[0][0]
+             #score /= 12 if sw_ary[0].min < sw_ary[1].max
+             #score /= 6 if sw_ary[1].min < sw_ary[2].max
+             #score /= 3 if sw_ary[2].min < sw_ary[3].max
+
+
+           #score = 0 if game_over?(sw_ary1) #OK
+           #score /= 10 if game_over?(sw_ary2) #OK
+           #score /= 5  if game_over?(sw_ary) #OK
+
+           sw_ary3 = all_1(swape_ary(ary,i))
+           sw_ary3.each do |sep_ary|
+             if game_over?(sep_ary)
+              score = 0
+              break
+             end
+             if to_left(ary) == ary && to_right(ary) == ary && to_top(ary) == ary
+               score = 0
+             end
+             #if ary.flatten.max != sep_ary[0][0] && ary.flatten.max > 128
+            #   score = 0
+            #   break
+            # end
+          end
+          #escapeの時だけかな
+          #score /= ary[2].max+1
+          #score /= 2*(ary[3].max+1)
+
+
+           if score >= tree_list[i][1]
+             tree_list[i][1] = score
+           end
+         # else
+         #  score = ary[0].inject(:+)
+         #  score *= ary[1].inject(:+)
+         #  tree_list.push([i, j, k, score])
+          #end
+          #break if tree_list[i][1] != 0
+       end
+      end
+    end
+  end
+  tree_list.sort_by! {|x| x[1]}.reverse!
+  p "========" if log
+  tree_list.each do |l|
+    a = swape_ary(ary, l[0])
+    if ary != a
+      #puts ary
+      return a
+    end
+  end
+  # ドーピング
+  # return tree_list[0][4]
+end
+#escapeしたい、三列or二列重なる場合、二列目以降に大きい数きてしまった場合、小さい数が一列目に入った場合、順番ずれた場合
+
+def swape_ary(ary, n)
   left = to_left(ary)
   right = to_right(ary)
   top = to_top(ary)
@@ -191,10 +272,10 @@ def swape_ary(ary, n)
   end
 end
 
-def ltrb_tree_score(ary)
-  score_list = [[16384, 4096, 1024, 256],
-                [    0,    4,   16,  64],
-                [    0,    0,    0,  16],
+def tree_score(ary)
+  score_list = [[2048, 256, 64, 16],
+                [    0,    1,   2,  4],
+                [    0,    0,    0,  2],
                 [    0,    0,    0,   0]]
   s = 0
   4.times do |i|
